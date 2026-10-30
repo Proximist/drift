@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>drift — a calm corner of the web</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --ink: #ececf1;
+    --dim: #8b8b96;
+    --accent: #7c6cff;
+    --accent2: #4ecdc4;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+  .blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.35;
+    z-index: 0;
+    animation: float 18s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .blob.one { width: 420px; height: 420px; background: var(--accent); top: -120px; left: -100px; }
+  .blob.two { width: 360px; height: 360px; background: var(--accent2); bottom: -100px; right: -80px; animation-delay: -9s; }
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(60px, 40px) scale(1.15); }
+    66% { transform: translate(-40px, 70px) scale(0.9); }
+  }
+  main { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.8s cubic-bezier(.2,.7,.3,1), transform 0.8s cubic-bezier(.2,.7,.3,1);
+  }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  header { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+  .eyebrow {
+    font-size: 0.8rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 18px;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.15s cubic-bezier(.2,.7,.3,1) forwards;
+  }
+  h1 {
+    font-size: clamp(2.6rem, 8vw, 4.8rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.35s cubic-bezier(.2,.7,.3,1) forwards;
+  }
+  h1 .grad {
+    background: linear-gradient(100deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .sub {
+    margin-top: 22px;
+    max-width: 480px;
+    color: var(--dim);
+    font-size: 1.1rem;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.55s cubic-bezier(.2,.7,.3,1) forwards;
+  }
+  .cta {
+    margin-top: 36px;
+    display: inline-flex;
+    gap: 14px;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.75s cubic-bezier(.2,.7,.3,1) forwards;
+  }
+  .btn {
+    padding: 13px 28px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.14);
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+  }
+  .btn.primary { background: var(--accent); border-color: transparent; }
+  .btn:hover { transform: translateY(-3px); }
+  .btn.ghost:hover { background: rgba(255,255,255,0.06); }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  section { padding: 90px 0; }
+  h2 { font-size: clamp(1.6rem, 4vw, 2.2rem); letter-spacing: -0.02em; margin-bottom: 14px; }
+  section p { color: var(--dim); max-width: 560px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-top: 40px; }
+  .card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 18px;
+    padding: 26px;
+    transition: transform 0.35s cubic-bezier(.2,.7,.3,1), border-color 0.35s ease, background 0.35s ease;
+  }
+  .card:hover { transform: translateY(-6px); border-color: rgba(124,108,255,0.5); background: rgba(124,108,255,0.07); }
+  .card h3 { font-size: 1.05rem; margin-bottom: 8px; }
+  .card p { font-size: 0.92rem; }
+  .card .ico { font-size: 1.6rem; display: block; margin-bottom: 14px; }
+  footer {
+    padding: 40px 0 60px;
+    color: var(--dim);
+    font-size: 0.85rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  footer a { color: var(--dim); text-decoration: none; transition: color 0.2s; }
+  footer a:hover { color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="blob one"></div>
+<div class="blob two"></div>
+
+<main>
+  <header>
+    <div class="eyebrow">drift</div>
+    <h1>a calm corner<br>of the <span class="grad">internet</span></h1>
+    <p class="sub">no noise, no feed, no doomscroll. just slow thoughts, good type, and a page that breathes.</p>
+    <div class="cta">
+      <a class="btn primary" href="#more">look around</a>
+      <a class="btn ghost" href="#more">why tho</a>
+    </div>
+  </header>
+
+  <section id="more">
+    <h2 class="reveal">built light, on purpose</h2>
+    <p class="reveal">plain html, css and js. no frameworks, no build step, no tracking. it loads before u finish blinking.</p>
+    <div class="cards">
+      <div class="card reveal">
+        <span class="ico">🍃</span>
+        <h3>featherweight</h3>
+        <p>one file, zero dependencies. the whole site is smaller than one hero image.</p>
+      </div>
+      <div class="card reveal">
+        <span class="ico">🌊</span>
+        <h3>fluid motion</h3>
+        <p>scroll reveals and floating gradients tuned to feel natural, not flashy.</p>
+      </div>
+      <div class="card reveal">
+        <span class="ico">🌙</span>
+        <h3>easy on the eyes</h3>
+        <p>deep dark background, soft contrast, no white flash at 2am.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="reveal">
+    <span>drift © 2026</span>
+    <span>made with html, css &amp; js — nothing else</span>
+  </footer>
+</main>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  const blobs = document.querySelectorAll('.blob');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    blobs.forEach((b, i) => b.style.translate = `0 ${y * (i ? 0.06 : 0.12)}px`);
+  }, { passive: true });
+</script>
+</body>
+</html>
